@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页面</title>
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<!--路径导航-->
+<ul class="breadcrumb">
+    <li>
+        <a href="{:url('index/index/index')}">首页</a>
+    </li>
+    <li>
+        <a href="{:url('index/linli/index')}">邻里</a>
+    </li>
+    <li>
+        <a href="#">详情</a>
+    </li>
+</ul>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h3 class="text-center">
+                {$data.title}
+            </h3>
+
+            <div align="center">
+                <img width="300px" height="300px"  align="center" alt="140x140" src="{$data.img}" class="img-rounded" />
+                <p>
+                    {$data.content}
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

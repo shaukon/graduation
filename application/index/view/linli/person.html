@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimum-scale=1.0">
+    <!--bootstrap 的样式文件-->
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<!--面包屑导航-->
+<ul class="breadcrumb">
+    <li>
+        <a href="{:url('index/index/index')}">首页</a>
+    </li>
+    <li>
+        <a href="{:url('index/linli/index')}">邻里</a>
+    </li>
+    <li>
+        <a href="#">个人主页</a>
+    </li>
+</ul>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12" >
+            <h1>
+                <strong style="color: #31b0d5;">个人主页</strong>
+            </h1>
+
+            <div class="col-xs-2">
+                <img height="100" width="100" src="__ROOT__/{$userInfo['head_img']}" alt="头像" class="img-circle"><br>
+            </div>
+            <row>
+                <div class="col-xs-10">
+                    <h4 style="color: #2aabd2" align="left">{$userInfo['nickname']}</h4>
+                    <p>{$userInfo['sex']}</p>
+                    <a href="">加关注/取消关注</a>
+                    <a href="{:url('index/linli/leaveWords',['id'=>$userInfo['id']])}"><h3>留言</h3></a>
+                </div>
+            </row>
+
+            <row>
+                <div class="col-xs-offset-2 col-xs-10">
+                    帖子：<strong style="color: #d58512"> {$count} </strong>   关注：<strong style="color: greenyellow;"> 0 </strong>  粉丝：<strong style="color: #d58512"> 6 </strong>
+                </div>
+            </row>
+        </div>
+    </div>
+    <hr>
+
+
+    <!--主要内容-->
+    <div class="col-xs-offset-2" style="padding: 20px">
+        {volist name="tiezi" id="vo"}
+        <div class="media well">
+            <!--发布者信息-->
+            <a href="{:url('index/linli/person')}" class="pull-left">
+                <img src="__ROOT__/{$vo.head_img}"  height="50" width="50" class="media-object" alt='' />
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    <!--连接到个人的发布信息列表-->
+                    <a href="{:url('index/linli/person')}">
+                        {$vo.nickname}
+                    </a>
+                </h4>
+                {$vo.create_time}
+                <div class="media">
+                    <img src="__ROOT__/{$vo.img}" width="200" height="200" class="media-object pull-left" alt='' />
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            {$vo.title}
+                        </h4>
+                        {$vo.content}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/volist}
+
+    </div>
+
+
+</div>
+<hr/>
+<!--版权-->
+
+<div class="container" align="center" style="padding: 70px; align:bottom">
+    Copyright&nbsp;&copy&nbsp; 2018 xiaokang.group All Right Reserved.<br/>
+    小康集团 版权所有
+</div>
+
+
+<script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录界面</title>
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">&times;</button>
+        <h4>用户登陆</h4>
+    </div>
+
+    <div class="modal-body" align="center">
+        <form role="form" method="post" action="{:url('index/index/loginCheck')} ">
+            <div class="form-group">
+                <lable for="nickname">昵称</lable>
+                <input type="text" class="form-control" name="nickname" id="nickname" placeholder="请输入昵称">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="输入秘密">
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-paimary">登录</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+    <script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

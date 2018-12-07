@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>留言</title>
+</head>
+<body>
+<a href="javascript:history.go(-1)">返回</a>
+
+<form action="{:url('index/linli/doLeave',['id'=>$id])}" method="post" >
+
+    <textarea name="leaveWords" id="words" cols="30" rows="10" >
+    </textarea>
+    <input type="submit" value="提交">
+
+</form>
+
+</body>
+</html>

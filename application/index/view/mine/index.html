@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的主页</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimum-scale=1.0">
+    <!--bootstrap 的样式文件-->
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+    <!--自己写的样式文件-->
+    <!--<link rel="stylesheet" href="__ROOT__/static/home/css/wuye.css">-->
+</head>
+<body style="padding: 70px">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <!--响应式菜单-->
+            <button class="navbar-toggle" data-toggle="collapse" data-target="#responsive-navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.shaukon.xin/BLOG" class="navbar-brand"><strong>小康之家</strong></a>
+        </div>
+        <div class="collapse navbar-collapse" id="responsive-navbar">
+            <ul class="nav navbar-nav">
+                <li><a href="__ROOT__/index/index/index">首页</a></li>
+                <li><a href="__ROOT__/index/lego/index">乐购</a></li>
+                <li><a href="__ROOT__/index/linli/index">邻里</a></li>
+                <li class="active"><a href="#">我的</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" >
+                <h1>
+                    <strong style="color: #31b0d5;">{$nickname}</strong>'个人主页 <a href="{:url('index/mine/logout')}" style="color: red;">注销</a>
+                </h1>
+
+                <div class="col-xs-2">
+                    <img height="100" width="100" src="__ROOT__/{$userInfo['head_img']}" alt="头像" class="img-circle"><br>
+                    <a href="{:url('index/mine/head_img')}">&nbsp;&nbsp;&nbsp;&nbsp;修改头像</a>
+                </div>
+                <row>
+                    <div class="col-xs-10">
+                        <h4 style="color: #2aabd2" align="left">小康</h4>
+                        邻里号：<strong style="color: #d58512">{$userInfo['id']}</strong>   积分排名：<strong style="color: greenyellow;">110</strong>
+                    </div>
+                </row>
+
+                <row>
+                    <div class="col-xs-offset-2 col-xs-10">
+                        余额：<strong style="color: #d58512">{$userInfo['balance']}</strong>   积分：<strong style="color: greenyellow;">12</strong>
+                    </div>
+                </row>
+            </div>
+        </div>
+
+        <!--主要内容-->
+        <div class="col-xs-offset-2" style="padding: 20px">
+            <!--红包面板-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse">
+                            我的帖子
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        {volist name="wdtz" id="vo"}
+                        <div class="media well">
+                            <!--发布者信息-->
+                            <a href="{:url('index/linli/person',['u_id'=>$vo.u_id])}" class="pull-left">
+                                <img src="__ROOT__/{$vo.head_img}"  height="50" width="50" class="media-object" alt='' />
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <!--连接到个人的发布信息列表-->
+                                    <a href="{:url('index/linli/person',['u_id'=>$vo.u_id])}">
+                                        {$vo.nickname}
+                                    </a>
+                                </h4>
+                                {$vo.create_time}
+                                <div class="media">
+                                    <img src="__ROOT__/{$vo.img}" width="200" height="200" class="media-object pull-left" alt='' />
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            {$vo.title}
+                                        </h4>
+                                        {$vo.content}
+                                    </div>
+                                </div>
+                                <br>
+                                <a href="{:url('index/mine/deleteTiezi',['id'=>$vo.id])}" onclick="confirm('确定要删除这个帖子吗？')">删除</a>
+                            </div>
+                        </div>
+                        {/volist}
+                        我的帖子body
+
+                    </div>
+                </div>
+            </div>
+
+            <!--留言面板-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a data-toggle="collapse" href="#liuyan">
+                            我收到的留言
+                        </a>
+                    </h3>
+                </div>
+                <div id="liuyan" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        {volist name="liuyan" id="vo"}
+                        <div class="media well">
+                            <!--发布者信息-->
+                            <a href="{:url('index/linli/person',['u_id'=>$vo.lid])}" class="pull-left">
+                                <img src="__ROOT__/{$vo.head_img}"  height="50" width="50" class="media-object" alt='' />
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <!--连接到个人的发布信息列表-->
+                                    <a href="{:url('index/linli/person',['u_id'=>$vo.lid])}">
+                                        {$vo.nickname}
+                                    </a>
+                                </h4>
+                                {$vo.create_time}
+                                <div class="media">
+                                    <div class="media-body">
+
+                                        {$vo.words}
+                                    </div>
+                                </div>
+                                <br>
+                                <a href="{:url('index/mine/deleteTiezi',['id'=>$vo.id])}" onclick="confirm('确定要删除这个帖子吗？')">删除</a>
+                            </div>
+                        </div>
+                        {/volist}
+                        我收到的留言
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!--订单面板-->
+            <div class="panel panel-primary">
+                <!--面板标题-->
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a href="#dingdanzhongxin" data-toggle="collapse">
+                            我的关注
+                        </a>
+                    </h3>
+                </div>
+
+                <!--面板内容-->
+                <div id="dingdanzhongxin" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">
+                                    专注的人
+                                </a>
+                            </li>
+                            <li><a href="#ios" data-toggle="tab">关注的帖子</a></li>
+                        </ul>
+
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="home">
+                                <p>关注人：张三，李四，王五</p>
+                            </div>
+                            <div class="tab-pane fade" id="ios">
+                                <p>帖子一，帖子二，帖子三，帖子四。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--我的收藏-->
+            <div class="panel panel-primary">
+                <!--面板头-->
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a href="#wdsc" data-toggle="collapse">
+                            我的收藏
+                        </a>
+                    </h3>
+                </div>
+
+                <!--面板内容-->
+                <div id="wdsc" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#shangpin" data-toggle="tab">
+                                    商品
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#shangpin" id="myTabDrop1" class="dropdown-toggle"
+                                   data-toggle="dropdown">商家
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                                    <li><a href="#zbsj" tabindex="-1" data-toggle="tab">周边商家</a></li>
+                                    <li><a href="#lgsj" tabindex="-1" data-toggle="tab">乐购商家</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#tiezi" data-toggle="tab">帖子</a></li>
+                        </ul>
+
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="shangpin">
+                                <p>商品一，商品二，商品三</p>
+                            </div>
+                            <div class="tab-pane fade" id="zbsj">
+                                <p>周边商家一，周边商家二，周边商家三</p>
+                            </div>
+                            <div class="tab-pane fade" id="lgsj">
+                                <p>乐购商家一，乐购商家二，乐购商家三</p>
+                            </div>
+                            <div class="tab-pane fade" id="tiezi">
+                                <p>收藏帖子一，收藏帖子二，收藏帖子三
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--我的小区-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a data-toggle="collapse" href="#wdxq">
+                            我的小区
+                        </a>
+                    </h3>
+                </div>
+                <div id="wdxq" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        我的小区面板body
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--我的活动-->
+            <div class="panel panel-primary">
+                <!--面板头-->
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a href="#wdhd" data-toggle="collapse">
+                            我的活动
+                        </a>
+                    </h3>
+                </div>
+
+                <!--面板内容-->
+                <div id="wdhd" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        <ul id="myhd" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#hd1" data-toggle="tab">
+                                    报名的活动
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#hd2" data-toggle="tab">
+                                    关注的活动
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div id="myhdcontent" class="tab-content">
+                            <div class="tab-pane fade in active" id="hd1">
+                                <p>报名活动一，报名活动二，报名活动三</p>
+                            </div>
+                            <div class="tab-pane fade" id="hd2">
+                                <p>关注活动一，关注活动二，关注活动三
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--地址管理-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a data-toggle="collapse" href="#wddz">
+                            地址管理
+                        </a>
+                    </h3>
+                </div>
+                <div id="wddz" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        我的地址面板body
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <hr/>
+    <!--版权-->
+
+    <div class="container" align="center" style="padding: 70px; align:bottom">
+        Copyright&nbsp;&copy&nbsp; 2018 xiaokang.group All Right Reserved.<br/>
+        小康集团 版权所有
+    </div>
+
+
+<script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生活管家</title>
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <ul class="breadcrumb">
+                <li>
+                    <a href="{:url('index/index/index')}">首页</a>
+                </li>
+                <li>
+                    <a href="#" class="active">生活管家</a>
+                </li>
+            </ul>
+
+
+            <h1 class="text-center">
+                生活管家
+            </h1>
+            <hr>
+
+            <div class="panel-group" id="panel-571084">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-571084" href="#morenleibie">
+                            <h2>默认类别</h2>
+                        </a>
+                    </div>
+                    <div id="morenleibie" class="panel-collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                {volist name='moren' id='vo'}
+                                    <div class="col-md-4">
+                                        <a href="{$vo.url}">
+                                            <div class="thumbnail">
+                                                <img alt="300x200" src="{$vo.icon}" />
+                                                <div class="caption">
+                                                    <h4 align="center">
+                                                        {$vo.name}
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-571084" href="#shenghuofuwulei">
+                            <h2>生活服务类</h2>
+                        </a>
+                    </div>
+                    <div id="shenghuofuwulei" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                {volist name='shenghuo' id='vo'}
+                                <div class="col-md-4">
+                                    <a href="{$vo.url}">
+                                        <div class="thumbnail">
+                                            <img alt="300x200" src="{$vo.icon}" />
+                                            <div class="caption">
+                                                <h4 align="center">
+                                                    {$vo.name}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-571084" href="#jujiabianlilei">
+                            <h2>居家便利类</h2>
+                        </a>
+                    </div>
+                    <div id="jujiabianlilei" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                {volist name='jujia' id='vo'}
+                                <div class="col-md-4">
+                                    <a href="{$vo.url}">
+                                        <div class="thumbnail">
+                                            <img alt="300x200" src="{$vo.icon}" />
+                                            <div class="caption">
+                                                <h4 align="center">
+                                                    {$vo.name}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-571084" href="#xiuxianyulelei">
+                            <h2>休闲娱乐类</h2>
+                        </a>
+                    </div>
+                    <div id="xiuxianyulelei" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                {volist name='xiuxian' id='vo'}
+                                <div class="col-md-4">
+                                    <a href="{$vo.url}">
+                                        <div class="thumbnail">
+                                            <img alt="300x200" src="{$vo.icon}" />
+                                            <div class="caption">
+                                                <h4 align="center">
+                                                    {$vo.name}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-571084" href="#gonggongfuwulei">
+                            <h2>公共服务类</h2>
+                        </a>
+                    </div>
+                    <div id="gonggongfuwulei" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="row">
+                                {volist name='gonggong' id='vo'}
+                                <div class="col-md-4">
+                                    <a href="{$vo.url}">
+                                        <div class="thumbnail">
+                                            <img alt="300x200" src="{$vo.icon}" />
+                                            <div class="caption">
+                                                <h4 align="center">
+                                                    {$vo.name}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

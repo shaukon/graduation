@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通知告示</title>
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="{:url('index/index/index')}">首页</a>
+                </li>
+                <li>
+                    <a href="{:url('index/index/wuyeguanjia')}">物业管家</a>
+                </li>
+                <li>
+                    <a href="#" class="active">通知告示</a>
+
+                </li>
+            </ul>
+
+            <h1 class="text-center" style="padding: 70px; color: red;">
+                通知告示
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        {volist name="data" id='vo'}
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img alt="300x200" src="{$vo.img}" />
+                <div class="caption">
+                    {$vo.create_time}
+                    <h3>
+                        {$vo.title}
+                    </h3>
+                    <p>
+                        <a class="btn btn-primary" href="{:url('index/index/tzgsDetail',['id'=>$vo.id])}">详情</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {/volist}
+    </div>
+</div>
+<script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

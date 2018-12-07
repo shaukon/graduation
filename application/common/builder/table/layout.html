@@ -1,0 +1,314 @@
+{extend name="$_admin_base_layout" /}
+
+{block name="content"}
+    {notempty name="page_tips"}
+    <div class="alert alert-{$tips_type} alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <p>{$page_tips}</p>
+    </div>
+    {/notempty}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block">
+                {notempty name="tab_nav"}
+                <ul class="nav nav-tabs">
+                    {volist name="tab_nav['tab_list']" id="tab"}
+                    <li {eq name="tab_nav.curr_tab" value="$key"}class="active"{/eq}>
+                    <a href="{$tab.url}{$_pop ?= '?_pop=1'}">{$tab.title|htmlspecialchars}</a>
+                    </li>
+                    {/volist}
+                    <li class="pull-right">
+                        <ul class="block-options push-10-t push-10-r">
+                            <li>
+                                <button type="button" class="page-reload"><i class="si si-refresh"></i></button>
+                            </li>
+                            <li>
+                                <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                {else/}
+                {empty name="_pop"}
+                <div class="block-header bg-gray-lighter">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button" class="page-reload"><i class="si si-refresh"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">{$page_title|default=""|htmlspecialchars}</h3>
+                </div>
+                {/empty}
+                {/notempty}
+                <div class="block-content tab-content">
+                    <div class="tab-pane active">
+                        {notempty name="_search_area"}
+                        <div class="search-area border-b push">
+                            <input type="hidden" id="_o" value="{$_search_area_op|default=''}">
+                            <form action="{$_search_area_url}" class="form-horizontal row" id="search-area">
+                                {volist name="_search_area" id="vo"}
+                                {switch name="vo[0]"}
+                                {case value="text"}
+                                <div class="col-md-{$_search_area_layout[$vo.1]|default='3'} col-xs-12 push">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{$vo.2|default=''}</span>
+                                        <input class="form-control" type="{$vo.0|default='text'}" id="search_{$vo.1|default=''}" name="{$vo.1|default=''}" value="{$vo.4|default=''}" placeholder="{$vo.2|default=''}">
+                                    </div>
+                                </div>
+                                {/case}
+                                {case value="select"}
+                                <div class="col-md-{$_search_area_layout[$vo.1]|default='3'} col-xs-12 push">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{$vo.2|default=''}</span>
+                                        <select class="js-select2 form-control" id="search_{$vo.1|default=''}" name="{$vo.1|default=''}" data-width="resolve" data-allow-clear="true" data-placeholder="{$vo.2|default=''}">
+                                            <option></option>
+                                            {notempty name="vo.5"}
+                                            {volist name="vo.5" id="v"}
+                                            <option value="{$key}" {if ((string)$vo.4 == (string)$key)}selected{/if}>{$v}</option>
+                                            {/volist}
+                                            {/notempty}
+                                        </select>
+                                    </div>
+                                </div>
+                                {/case}
+                                {case value="daterange"}
+                                <div class="col-md-{$_search_area_layout[$vo.1]|default='3'} col-xs-12 push">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{$vo.2|default=''}</span>
+                                        <input class="js-daterangepicker form-control" type="text" id="search_{$vo.1|default=''}" name="{$vo.1|default=''}" value="{$vo.4|default=''}" placeholder="{$vo.2|default=''}" {$vo.5|default=""}>
+                                    </div>
+                                </div>
+                                {/case}
+                                {/switch}
+                                {/volist}
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i> 搜索</button>
+                                            <a href="{$_search_area_url}" class="btn btn-sm btn-default" type="reset"><i class="fa fa-reply"></i> 重置</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {/notempty}
+
+                        {// 顶部筛选及搜索 }
+                        {$extra_html_toolbar_top|default=''}
+                        <div class="row data-table-toolbar">
+                            <div class="col-sm-12">
+                                {// 搜索框 }
+                                {notempty name="search"}
+                                <div class="pull-right search-bar">
+                                    <input type="hidden" name="search_field" id="search-field" value="{php}echo input('param.search_field', '') == '' ? $search['field_all'] : input('param.search_field');{/php}">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" id="search-btn" data-toggle="dropdown" type="button" aria-expanded="false">
+                                                不限 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a tabindex="-1" href="javascript:void(0)" data-field="{$search.field_all}">不限</a>
+                                                </li>
+                                                {volist name="search.fields" id="field"}
+                                                <li>
+                                                    <a tabindex="-1" href="javascript:void(0)" data-field="{$key}">{$field|htmlspecialchars}</a>
+                                                </li>
+                                                {/volist}
+                                            </ul>
+                                        </div>
+                                        <div {$search_button ?= 'class="input-group"'}>
+                                            <input type="text" class="form-control" value="{:input('param.keyword', '')}" data-url="{$search.url}" id="search-input" name="keyword" placeholder="{$search.placeholder}">
+                                            {$search_button ?= '<span class="input-group-btn"><button class="btn btn-default" id="search-submit-btn" type="button">'.($search_button === true ? "搜索" : $search_button).'</button></span>'}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {/notempty}
+
+                                {// 顶部按钮 }
+                                <div class="toolbar-btn-action">
+                                    {if (!empty($top_buttons))}
+                                        {volist name="top_buttons" id="button"}
+                                            {$button}
+                                        {/volist}
+                                    {/if}
+
+                                    {// 下拉菜单}
+                                    {notempty name="_select_list"}
+                                    <div class="form-inline" style="display: inline-block;">
+                                        {volist name="_select_list" id="item"}
+                                        <select class="js-select2 form-control select-change select-search" data-width="resolve" id="select-{$item.name}">
+                                            {notempty name="item.title"}
+                                            <option value="" data-url="{$item.default_url}">{$item.title|default=''}</option>
+                                            {/notempty}
+                                            {volist name="item['options']" id="option"}
+                                            <option value="{$key}" {php}if($item['current'] != '' && $item['current'] == $key){echo 'selected';}{/php}
+                                            {php}if(is_array($item['url'])):{/php}
+                                            data-url='{$item['url'][$key]}'
+                                            {php}endif;{/php}
+                                            >{$option}</option>
+                                            {/volist}
+                                        </select>
+                                        {/volist}
+                                    </div>
+                                    {/notempty}
+
+                                    {// 时间段搜索}
+                                    {notempty name="_filter_time"}
+                                    <div class="form-inline time-filter">
+                                        <div class="time-filter">
+                                            <div class="input-daterange input-group" data-date-format="yyyy-mm-dd">
+                                                <input class="form-control" type="text" id="_filter_time_from" name="_filter_time_from" value="{$Request.get._filter_time_from ? $Request.get._filter_time_from : $_filter_time.date_start}" placeholder="{$_filter_time.tips_start}">
+                                                <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                                                <input class="form-control" type="text" id="_filter_time_to" name="_filter_time_to" value="{$Request.get._filter_time_to ? $Request.get._filter_time_to : $_filter_time.date_end}" placeholder="{$_filter_time.tips_end}">
+                                            </div>
+                                            <input type="hidden" id="_filter_time" name="_filter_time" value="{$_filter_time.field}">
+                                            <button type="button" id="btn-filter-time" class="btn btn-default">确定</button>
+                                        </div>
+                                    </div>
+                                    {/notempty}
+                                </div>
+                            </div>
+                        </div>
+                        {$extra_html_toolbar_bottom|default=''}
+                        <div class="table-responsive">
+                            {$extra_html_table_top|default=''}
+                            <table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+                                <thead>
+                                    <tr>
+                                        {if (!$hide_checkbox)}
+                                        <th class="text-center" style="min-width: 70px;padding: 10px;">
+                                            <label class="css-input css-checkbox css-checkbox-primary remove-margin-t remove-margin-b">
+                                                <input type="checkbox" id="check-all"><span></span>
+                                            </label>
+                                        </th>
+                                        {/if}
+
+                                        {volist name="columns" id="column"}
+                                        <th class="column-{$column['name']} {$column.class|default=''}">
+                                            {// 字段标题}
+                                            {$column.title|default=''|htmlspecialchars}
+                                            <span>
+                                            {// 排序功能}
+                                            {php}if (isset($order_columns[$column['name']])): {/php}
+                                                {php}
+                                                    $_by = input('param._by') == 'asc' ? 'desc' : 'asc';
+                                                    $_param = array_merge(input('get.'), ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
+                                                    if ($_param) {
+                                                        $_get = [];
+                                                        foreach ($_param as $key => $value) {
+                                                            $_get[] = $key. '=' .$value;
+                                                        }
+                                                        $_get = '?'.implode('&', $_get);
+                                                    }
+                                                {/php}
+                                                <a href="{$Request.baseUrl}{$_get}" data-toggle="tooltip" data-original-title="排序">
+                                                    {php}
+                                                        if (input('param._order') == $order_columns[$column['name']]) {
+                                                            echo input('param._by') == 'asc' ? '<i class="fa fa-caret-up"></i>' : '<i class="fa fa-caret-down"></i>';
+                                                        } else {
+                                                            echo '<i class="fa fa-sort text-muted"></i>';
+                                                        }
+                                                    {/php}
+                                                </a>
+                                            {php}endif;{/php}
+
+                                            {// 筛选功能}
+                                            {php}if (isset($filter_columns[$column['name']])): {/php}
+                                            {php}
+                                                if (!empty(request()->param('_field_display'))) {
+                                                    $_field_display = request()->param('_field_display');
+                                                }
+                                            {/php}
+                                            <a href="javascript:void(0);" class="field-filter" data-filter="{$filter_columns[$column['name']]['filter']}" data-list="{$filter_columns[$column['name']]['list']}" data-type="{$filter_columns[$column['name']]['type']}" data-options='{$filter_columns[$column["name"]]["options"]|default=""}' data-map='{$filter_columns[$column["name"]]["map"]|default=""}' data-field-display="{$column['name']}" data-field="{$filter_columns[$column['name']]['field']}" data-table="{$filter_columns[$column['name']]['table']}" data-toggle="tooltip" data-original-title="筛选"><i class="fa fa-filter {notin name='column.name' value='$_field_display'}text-muted{/notin}"></i></a>
+                                            {php}endif;{/php}
+                                            </span>
+                                        </th>
+                                        {/volist}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {volist name="row_list" id="row"}
+                                    <tr class="{$row['_tr_class']|default=''}">
+                                        {if (!$hide_checkbox)}
+                                        <td class="text-center">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input class="ids" type="checkbox" name="ids[]" value="{$row['_primary_key_value']|default=''}"><span></span>
+                                            </label>
+                                        </td>
+                                        {/if}
+
+                                        {volist name="columns" id="column"}
+                                        <td class="{$column['class']|default=''}">
+                                            {php}if(is_array($column['type']) || $column['type'] == '' || $column['type'] == 'btn' || $column['type'] == 'text'):{/php}
+                                                {$row[$column['name']]|default=''}
+                                            {php}else:{/php}
+                                                {$row[$column['name'].'__'.$column['type']]|default=''}
+                                            {php}endif;{/php}
+                                        </td>
+                                        {/volist}
+                                    </tr>
+                                    {/volist}
+
+                                    {empty name="row_list"}
+                                    {notempty name="empty_tips"}
+                                    <tr class="table-empty">
+                                        {php}$colspan = count($columns)+1{/php}
+                                        <td class="text-center empty-info" colspan="{$colspan}">
+                                            <i class="fa fa-database"></i> {$empty_tips}<br>
+                                        </td>
+                                    </tr>
+                                    {/notempty}
+                                    {/empty}
+                                </tbody>
+                            </table>
+                            {$extra_html_table_bottom|default=''}
+                        </div>
+                        <div class="data-table-toolbar">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    {// 分页 }
+                                    {notempty name="pages"}
+                                        {$pages}
+                                    {/notempty}
+                                    {notempty name="_page_info"}
+                                    <div class="pagination-info pull-right">
+                                        <div>
+                                            <input type="text" class="form-control input-sm go-page" id="go-page" name="page" value="{:input('param.page', '1')}">
+                                            <input type="text" class="form-control input-sm nums" id="list-rows" name="list_rows" value="{php}echo input('param.list_rows', '') == '' ? $_page_info->listRows() : input('param.list_rows');{/php}">
+                                            / <strong>{$_page_info->lastPage()}</strong> 页，共 <strong>{$_page_info->total()}</strong> 条数据，每页显示数量
+                                        </div>
+                                    </div>
+                                    {/notempty}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="style"}
+    {volist name="css_list" id="vo"}
+    <link rel="stylesheet" href="{$vo}?v={:config('asset_version')}">
+    {/volist}
+
+    {// 额外CSS代码 }
+    {$extra_css|default=''}
+{/block}
+
+{block name="script"}
+
+    {volist name="js_list" id="vo"}
+    <script src="{$vo}?v={:config('asset_version')}"></script>
+    {/volist}
+
+    {// 额外JS代码 }
+    {$extra_js|default=''}
+{/block}

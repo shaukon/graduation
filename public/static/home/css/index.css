@@ -1,0 +1,39 @@
+body{
+    padding-top: 50px;
+}
+
+.navbar-inverse input[type="text"]{
+    background: #333;
+    border: none;
+    color: #999;
+}
+
+img {
+    width: 100%;
+}
+
+.navbar-inverse button[type="submit"]{
+    background: none;
+    border: none;
+    color: #999;
+}
+
+.navbar-inverse form{
+    position: relative;
+}
+
+.navbar-inverse .glyphicon-search{
+    position: absolute;
+    top: 30%;
+    right:40px;
+    color: #999;
+}
+
+/*@media (min-width:768px) {*/
+/*.navbar-inverse .glyphicon-search{*/
+/*top:20%;*/
+/*right:20px ;*/
+/*}*/
+/**/
+/*}*/
+

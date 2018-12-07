@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布帖子</title>
+    <link rel="stylesheet" href="__ROOT__/static/home/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+
+
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <!--路径导航-->
+
+            <ul class="breadcrumb">
+                <li>
+                    <a href="{:url('index/linli/index')}">邻里</a>
+                </li>
+                <li>
+                    <a href="#">发帖</a>
+                </li>
+            </ul>
+
+            <div class="row">
+                <h1 align="center">发布帖子</h1>
+                <br><br>
+            </div>
+
+            <form role="form" method="post" action="{:url('index/linli/doPost')}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="type">类型</label>
+
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="type" id="type1" value="0" checked>分享
+                        </label>
+                        <label>
+                            <input type="radio" name="type" id="type2" value="1" >二手
+                        </label>
+                        <label>
+                            <input type="radio" name="type" id="type3" value="2" >话题
+                        </label>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="title">标题</label>
+                    <input type="text" class="form-control" id="title" name="title" />
+                </div>
+                <div class="form-group">
+                    <label for="content">内容</label>
+                    <textarea class="form-control" name="content" id="content" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="img">配 图</label>
+                    <input type="file" id="img" name="img" />
+                    <p class="help-block">
+                        帮助   说明.
+                    </p>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" checked/>我已阅读并同意 <a href="">《发帖协议》</a>  </label>
+                </div>
+                <button type="submit" class="btn btn-primary">发布帖子</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="__ROOT__/static/home/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/home/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
